@@ -18,3 +18,8 @@
 - Add, View, Update, and Delete customers
 - Form validation and proper error handling
 - Axios for API integration
+
+
+
+#### Video Link
+    https://drive.google.com/file/d/1x6mJIuMAxtVaJIYo_heGd3JwImSuYyZC/view?usp=sharing
