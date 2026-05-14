@@ -1,20 +1,33 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
-const Register = () => {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  const Navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSignUp = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
+    api.post('/auth/login', formData)
+      .then(response => {
+        localStorage.setItem("token", response.data.token);
+        Navigate("/dashboard");
+        window.location.reload(); // Refresh to update App auth state
+      })
+      .catch(error => {
+        console.error(error);
+        alert(error.response?.data?.message || "Login failed");
+      });
   };
 
   return (
@@ -25,7 +38,7 @@ const Register = () => {
             Login
           </h1>
         </div>
-        <form className="space-y-6" onSubmit={handleSignUp}>
+        <form className="space-y-6" onSubmit={handleLogin}>
           <div className="space-y-2">
             <label className="block text-sm font-medium text-slate-300">
               Email Address
@@ -90,4 +103,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
